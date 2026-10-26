@@ -1,0 +1,14 @@
+# Build outputs
+bin/
+obj/
+
+# User-specific files
+.vs/
+*.user
+*.suo
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# OS-generated files
+.DS_Store

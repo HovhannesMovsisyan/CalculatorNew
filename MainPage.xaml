@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Calculator.MainPage"
+             Title="Calculator">
+
+    <ContentPage.Resources>
+        <Style x:Key="CalcButton" TargetType="Button">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontFamily" Value="OpenSansSemibold" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HeightRequest" Value="72" />
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}" />
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        </Style>
+
+        <Style x:Key="FunctionButton" TargetType="Button" BasedOn="{StaticResource CalcButton}">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray500}}" />
+        </Style>
+
+        <Style x:Key="OperatorButton" TargetType="Button" BasedOn="{StaticResource CalcButton}">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid Padding="16"
+          RowSpacing="10"
+          ColumnSpacing="10"
+          RowDefinitions="*,Auto,Auto,Auto,Auto,Auto"
+          ColumnDefinitions="*,*,*,*"
+          MaximumWidthRequest="480">
+
+        <!-- Display -->
+        <VerticalStackLayout Grid.ColumnSpan="4"
+                             VerticalOptions="End"
+                             Spacing="4"
+                             Padding="8,0">
+            <Label x:Name="ExpressionLabel"
+                   FontSize="20"
+                   HorizontalTextAlignment="End"
+                   LineBreakMode="HeadTruncation"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray300}}" />
+            <Label x:Name="DisplayLabel"
+                   Text="0"
+                   FontSize="56"
+                   FontFamily="OpenSansSemibold"
+                   HorizontalTextAlignment="End"
+                   LineBreakMode="HeadTruncation"
+                   SemanticProperties.Description="Result" />
+        </VerticalStackLayout>
+
+        <!-- Row 1 -->
+        <Button Grid.Row="1" Grid.Column="0" Text="C" Style="{StaticResource FunctionButton}" Clicked="OnClearClicked" SemanticProperties.Description="Clear" />
+        <Button Grid.Row="1" Grid.Column="1" Text="±" Style="{StaticResource FunctionButton}" Clicked="OnNegateClicked" SemanticProperties.Description="Change sign" />
+        <Button Grid.Row="1" Grid.Column="2" Text="%" Style="{StaticResource FunctionButton}" Clicked="OnPercentClicked" SemanticProperties.Description="Percent" />
+        <Button Grid.Row="1" Grid.Column="3" Text="÷" Style="{StaticResource OperatorButton}" Clicked="OnOperatorClicked" SemanticProperties.Description="Divide" />
+
+        <!-- Row 2 -->
+        <Button Grid.Row="2" Grid.Column="0" Text="7" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="2" Grid.Column="1" Text="8" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="2" Grid.Column="2" Text="9" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="2" Grid.Column="3" Text="×" Style="{StaticResource OperatorButton}" Clicked="OnOperatorClicked" SemanticProperties.Description="Multiply" />
+
+        <!-- Row 3 -->
+        <Button Grid.Row="3" Grid.Column="0" Text="4" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="3" Grid.Column="1" Text="5" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="3" Grid.Column="2" Text="6" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="3" Grid.Column="3" Text="−" Style="{StaticResource OperatorButton}" Clicked="OnOperatorClicked" SemanticProperties.Description="Subtract" />
+
+        <!-- Row 4 -->
+        <Button Grid.Row="4" Grid.Column="0" Text="1" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="4" Grid.Column="1" Text="2" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="4" Grid.Column="2" Text="3" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="4" Grid.Column="3" Text="+" Style="{StaticResource OperatorButton}" Clicked="OnOperatorClicked" SemanticProperties.Description="Add" />
+
+        <!-- Row 5 -->
+        <Button Grid.Row="5" Grid.Column="0" Text="0" Style="{StaticResource CalcButton}" Clicked="OnDigitClicked" />
+        <Button Grid.Row="5" Grid.Column="1" Text="." Style="{StaticResource CalcButton}" Clicked="OnDecimalClicked" SemanticProperties.Description="Decimal point" />
+        <Button Grid.Row="5" Grid.Column="2" Text="⌫" Style="{StaticResource FunctionButton}" Clicked="OnBackspaceClicked" SemanticProperties.Description="Backspace" />
+        <Button Grid.Row="5" Grid.Column="3" Text="=" Style="{StaticResource OperatorButton}" Clicked="OnEqualsClicked" SemanticProperties.Description="Equals" />
+    </Grid>
+
+</ContentPage>
