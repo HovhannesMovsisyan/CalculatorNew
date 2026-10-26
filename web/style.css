@@ -1,4 +1,4 @@
-/* Same palette as Resources/Styles/Colors.xaml in the MAUI app */
+/* Grays match Resources/Styles/Colors.xaml in the MAUI app; operator keys are green */
 :root {
     --bg: #ffffff;
     --text: #000000;
@@ -6,7 +6,7 @@
     --key: #E1E1E1;
     --key-text: #000000;
     --function: #ACACAC;
-    --operator: #512BD4;
+    --operator: #15803D;
     --operator-text: #ffffff;
 }
 
@@ -18,7 +18,7 @@
         --key: #404040;
         --key-text: #ffffff;
         --function: #6E6E6E;
-        --operator: #ac99ea;
+        --operator: #4ADE80;
         --operator-text: #242424;
     }
 }

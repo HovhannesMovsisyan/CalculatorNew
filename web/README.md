@@ -5,7 +5,7 @@ A static (HTML/CSS/JS, no build step) version of the MAUI calculator. Same layou
 | File | Purpose |
 |---|---|
 | `index.html` | Display and button grid |
-| `style.css` | Colors from `Resources/Styles/Colors.xaml`, light and dark mode |
+| `style.css` | Gray keys from `Resources/Styles/Colors.xaml`, green operator keys, light and dark mode |
 | `calculator.js` | Calculator logic and keyboard shortcuts |
 
 Keyboard: `0-9`, `.`, `+ - * /`, `Enter` or `=`, `Backspace`, `Esc` / `C` to clear, `%`.
