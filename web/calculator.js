@@ -12,6 +12,8 @@ const expressionEl = document.getElementById("expression");
 function onDigit(digit) {
     if (startNewEntry || entry === "0")
         entry = digit;
+    else if (entry === "-0")
+        entry = "-" + digit;
     else if (entry.replace(/\D/g, "").length < MaxDigits)
         entry += digit;
 
@@ -107,6 +109,7 @@ function evaluate() {
         reset();
         resultEl.textContent = "Error";
         expressionEl.textContent = "";
+        fitResult();
         return null;
     }
     return result;
@@ -125,7 +128,24 @@ function updateDisplay(expression) {
         ?? (pendingOperator !== null && storedValue !== null
             ? `${format(storedValue)} ${pendingOperator}`
             : "");
+    fitResult();
 }
+
+// Shrink the result font until it fits the display (max size comes from style.css)
+const MinResultFontSize = 20;
+
+function fitResult() {
+    resultEl.style.fontSize = "";
+    const available = resultEl.parentElement.clientWidth;
+    let size = parseFloat(getComputedStyle(resultEl).fontSize);
+
+    while (resultEl.getBoundingClientRect().width > available && size > MinResultFontSize) {
+        size -= 2;
+        resultEl.style.fontSize = `${size}px`;
+    }
+}
+
+window.addEventListener("resize", fitResult);
 
 // Round off long fractions (e.g. 1 ÷ 3) and floating-point noise (0.1 + 0.2), drop trailing zeros
 function format(value) {
@@ -157,15 +177,60 @@ document.addEventListener("keydown", e => {
         return;
 
     const key = e.key;
-    if (/^\d$/.test(key)) onDigit(key);
-    else if (key === "." || key === ",") onDecimal();
-    else if (key in keyOperators) onOperator(keyOperators[key]);
-    else if (key === "Enter" || key === "=") onEquals();
-    else if (key === "Backspace") onBackspace();
-    else if (key === "Escape" || key === "Delete" || key.toLowerCase() === "c") onClear();
-    else if (key === "%") onPercent();
+
+    // Let Enter activate the theme toggle when it has focus
+    if (key === "Enter" && e.target.closest?.(".theme-toggle"))
+        return;
+
+    let selector;
+    if (/^\d$/.test(key)) { onDigit(key); selector = `[data-digit="${key}"]`; }
+    else if (key === "." || key === ",") { onDecimal(); selector = '[data-action="decimal"]'; }
+    else if (key in keyOperators) { onOperator(keyOperators[key]); selector = `[data-operator="${keyOperators[key]}"]`; }
+    else if (key === "Enter" || key === "=") { onEquals(); selector = '[data-action="equals"]'; }
+    else if (key === "Backspace") { onBackspace(); selector = '[data-action="backspace"]'; }
+    else if (key === "Escape" || key === "Delete" || key.toLowerCase() === "c") { onClear(); selector = '[data-action="clear"]'; }
+    else if (key === "%") { onPercent(); selector = '[data-action="percent"]'; }
     else
         return;
 
     e.preventDefault();
+    flashKey(selector);
 });
+
+// Show the pressed animation on the matching button when a key is typed
+function flashKey(selector) {
+    const button = document.querySelector(`.keys ${selector}`);
+    if (!button)
+        return;
+
+    button.classList.add("pressed");
+    setTimeout(() => button.classList.remove("pressed"), 120);
+}
+
+// Theme toggle: follows the system until the user picks a theme, then remembers it
+const ThemeStorageKey = "calculator-theme";
+const themeToggle = document.getElementById("theme-toggle");
+const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+function currentTheme() {
+    return document.documentElement.dataset.theme || (systemDark.matches ? "dark" : "light");
+}
+
+function updateThemeToggle() {
+    const dark = currentTheme() === "dark";
+    themeToggle.classList.toggle("is-dark", dark);
+    themeToggle.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+}
+
+themeToggle.addEventListener("click", () => {
+    const next = currentTheme() === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    try {
+        localStorage.setItem(ThemeStorageKey, next);
+    } catch { }
+    updateThemeToggle();
+});
+
+systemDark.addEventListener("change", updateThemeToggle);
+updateThemeToggle();
+fitResult();

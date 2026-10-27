@@ -5,31 +5,24 @@ A static (HTML/CSS/JS, no build step) version of the MAUI calculator. Same layou
 | File | Purpose |
 |---|---|
 | `index.html` | Display and button grid |
-| `style.css` | Gray keys from `Resources/Styles/Colors.xaml`, green operator keys, light and dark mode |
-| `calculator.js` | Calculator logic and keyboard shortcuts |
+| `style.css` | Card layout, green operator keys, light/dark themes, responsive (phone portrait/landscape, desktop) |
+| `calculator.js` | Calculator logic, keyboard shortcuts, result auto-shrink, theme toggle |
 
 Keyboard: `0-9`, `.`, `+ - * /`, `Enter` or `=`, `Backspace`, `Esc` / `C` to clear, `%`.
+
+Theme: follows the system setting until you click the sun/moon button; the choice is remembered in `localStorage`.
 
 ## Run locally
 
 Open `index.html` in a browser. No server needed.
 
-## Deploy (free)
+## Deploy
 
-Any of these work; the site is just the files in this folder.
+The site is hosted at https://calculatoor.click (Hetzner server, files in `/var/www/calculator`).
+Upload only the three site files (not this README):
 
-### GitHub Pages (automatic)
+```
+scp index.html style.css calculator.js deploy@2.31.79.19:/var/www/calculator/
+```
 
-The workflow `.github/workflows/deploy-web.yml` publishes this folder on every push to `main`.
-
-1. Create a GitHub repository and push the project (`git init`, commit, add remote, push to `main`).
-2. In the repository, go to **Settings → Pages** and set **Source** to **GitHub Actions**.
-3. Push again (or run the workflow from the **Actions** tab). The site appears at `https://<user>.github.io/<repo>/`.
-
-### Netlify
-
-Sign in at [app.netlify.com](https://app.netlify.com), choose **Add new site → Deploy manually**, and drag this `web` folder onto the page.
-
-### Cloudflare Pages
-
-In the Cloudflare dashboard go to **Workers & Pages → Create → Pages → Upload assets** and upload this `web` folder.
+When `style.css` or `calculator.js` change, bump the `?v=` number on their links in `index.html` so browsers don't keep an old cached copy.

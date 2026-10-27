@@ -1,27 +1,94 @@
-/* Grays match Resources/Styles/Colors.xaml in the MAUI app; operator keys are green */
+/* ---------- Theme tokens ---------- */
+
 :root {
-    --bg: #ffffff;
-    --text: #000000;
-    --muted: #6E6E6E;
-    --key: #E1E1E1;
-    --key-text: #000000;
-    --function: #ACACAC;
-    --operator: #15803D;
-    --operator-text: #ffffff;
+    color-scheme: light;
+
+    --bg-1: #f0fdf4;
+    --bg-2: #e2e8f0;
+    --card: #ffffff;
+    --card-border: rgba(15, 23, 42, 0.06);
+    --shadow: 0 24px 60px -16px rgba(15, 23, 42, 0.28), 0 4px 14px rgba(15, 23, 42, 0.06);
+    --text: #0f172a;
+    --muted: #64748b;
+    --display: #f8fafc;
+
+    --key: #f1f5f9;
+    --key-hover: #e2e8f0;
+    --key-text: #0f172a;
+    --function: #e2e8f0;
+    --function-hover: #cbd5e1;
+    --function-text: #334155;
+    --operator: #dcfce7;
+    --operator-hover: #bbf7d0;
+    --operator-text: #166534;
+    --equals: #15803D;
+    --equals-hover: #166534;
+    --equals-text: #ffffff;
+
+    --focus: #15803D;
 }
 
+/* Dark: follows the system unless the user picked light */
 @media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #1f1f1f;
-        --text: #ffffff;
-        --muted: #ACACAC;
-        --key: #404040;
-        --key-text: #ffffff;
-        --function: #6E6E6E;
-        --operator: #4ADE80;
-        --operator-text: #242424;
+    :root:not([data-theme="light"]) {
+        color-scheme: dark;
+
+        --bg-1: #0b1220;
+        --bg-2: #111827;
+        --card: #1a1f2b;
+        --card-border: rgba(255, 255, 255, 0.06);
+        --shadow: 0 24px 60px -16px rgba(0, 0, 0, 0.7), 0 4px 14px rgba(0, 0, 0, 0.3);
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --display: #141824;
+
+        --key: #262c3a;
+        --key-hover: #2f3647;
+        --key-text: #f1f5f9;
+        --function: #323a4c;
+        --function-hover: #3b4459;
+        --function-text: #e2e8f0;
+        --operator: rgba(74, 222, 128, 0.14);
+        --operator-hover: rgba(74, 222, 128, 0.22);
+        --operator-text: #86efac;
+        --equals: #22c55e;
+        --equals-hover: #4ade80;
+        --equals-text: #052e16;
+
+        --focus: #4ade80;
     }
 }
+
+/* Dark: chosen with the toggle */
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --bg-1: #0b1220;
+    --bg-2: #111827;
+    --card: #1a1f2b;
+    --card-border: rgba(255, 255, 255, 0.06);
+    --shadow: 0 24px 60px -16px rgba(0, 0, 0, 0.7), 0 4px 14px rgba(0, 0, 0, 0.3);
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --display: #141824;
+
+    --key: #262c3a;
+    --key-hover: #2f3647;
+    --key-text: #f1f5f9;
+    --function: #323a4c;
+    --function-hover: #3b4459;
+    --function-text: #e2e8f0;
+    --operator: rgba(74, 222, 128, 0.14);
+    --operator-hover: rgba(74, 222, 128, 0.22);
+    --operator-text: #86efac;
+    --equals: #22c55e;
+    --equals-hover: #4ade80;
+    --equals-text: #052e16;
+
+    --focus: #4ade80;
+}
+
+/* ---------- Page ---------- */
 
 * {
     box-sizing: border-box;
@@ -29,35 +96,100 @@
 
 html, body {
     margin: 0;
-    height: 100%;
 }
 
 body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Open Sans", "Segoe UI", system-ui, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 24px 16px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
+
+/* ---------- Card ---------- */
 
 .calculator {
     width: 100%;
-    max-width: 480px;
-    min-height: 100%;
-    padding: 16px;
+    max-width: 360px;
+    padding: 20px;
+    border-radius: 28px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow);
+}
+
+.calculator-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+}
+
+.theme-toggle {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--key);
+    color: var(--text);
+    cursor: pointer;
+    transition: background-color 0.15s, transform 0.1s;
+}
+
+.theme-toggle:hover {
+    background: var(--key-hover);
+}
+
+.theme-toggle:active {
+    transform: scale(0.92);
+}
+
+.theme-toggle .icon-sun {
+    display: none;
+}
+
+.theme-toggle.is-dark .icon-sun {
+    display: block;
+}
+
+.theme-toggle.is-dark .icon-moon {
+    display: none;
+}
+
+/* ---------- Display ---------- */
+
+.display {
+    min-height: 116px;
+    margin-bottom: 16px;
+    padding: 14px 18px;
+    border-radius: 18px;
+    background: var(--display);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 4px;
+    font-variant-numeric: tabular-nums;
 }
 
-.display {
-    padding: 0 8px;
-    text-align: right;
-    overflow: hidden;
-}
-
-/* Right-aligned flex rows clip overflow on the left, like LineBreakMode="HeadTruncation" */
+/* Right-aligned flex rows clip overflow on the left, so the newest digits stay visible */
 .expression,
 .result {
     display: flex;
@@ -68,14 +200,19 @@ body {
 
 .expression {
     min-height: 1.4em;
-    font-size: 20px;
+    font-size: 16px;
     color: var(--muted);
 }
 
-.result {
-    font-size: 56px;
+.result-value {
+    flex-shrink: 0;
+    font-size: 48px; /* max size; calculator.js shrinks it to fit */
     font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
 }
+
+/* ---------- Keys ---------- */
 
 .keys {
     display: grid;
@@ -83,42 +220,136 @@ body {
     gap: 10px;
 }
 
-button {
-    height: 72px;
-    border: none;
-    border-radius: 12px;
-    font: inherit;
-    font-size: 24px;
-    font-weight: 600;
-    background: var(--key);
-    color: var(--key-text);
-    cursor: pointer;
-    transition: filter 0.1s;
-    -webkit-tap-highlight-color: transparent;
+.key {
+    height: clamp(52px, 8.5dvh, 64px);
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 0;
+    padding: 0;
+    border: none;
+    border-radius: 16px;
+    background: var(--key);
+    color: var(--key-text);
+    font: inherit;
+    font-size: 22px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.15s, transform 0.08s ease-out, box-shadow 0.15s;
 }
 
-button:hover {
-    filter: brightness(1.08);
+.key:hover {
+    background: var(--key-hover);
+    transform: translateY(-1px);
 }
 
-button:active {
-    filter: brightness(0.9);
+.key:active,
+.key.pressed {
+    transform: scale(0.95);
 }
 
-button:focus-visible {
-    outline: 3px solid var(--operator);
+.key.function {
+    background: var(--function);
+    color: var(--function-text);
+}
+
+.key.function:hover {
+    background: var(--function-hover);
+}
+
+.key.operator {
+    background: var(--operator);
+    color: var(--operator-text);
+    font-size: 26px;
+}
+
+.key.operator:hover {
+    background: var(--operator-hover);
+}
+
+.key.equals {
+    background: var(--equals);
+    color: var(--equals-text);
+    font-size: 26px;
+    box-shadow: 0 6px 16px -6px var(--equals);
+}
+
+.key.equals:hover {
+    background: var(--equals-hover);
+}
+
+.key:focus-visible,
+.theme-toggle:focus-visible {
+    outline: 3px solid var(--focus);
     outline-offset: 2px;
 }
 
-button.function {
-    background: var(--function);
+/* ---------- Responsive ---------- */
+
+/* Phones in landscape: display on the left, keys on the right */
+@media (orientation: landscape) and (max-height: 500px) {
+    body {
+        padding: 8px 16px;
+    }
+
+    .calculator {
+        max-width: 640px;
+        padding: 12px;
+        display: grid;
+        grid-template-columns: 1fr 1.3fr;
+        grid-template-rows: auto 1fr;
+        column-gap: 14px;
+    }
+
+    .calculator-header {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .display {
+        grid-column: 1;
+        grid-row: 2;
+        min-height: 0;
+        margin-bottom: 0;
+    }
+
+    .keys {
+        grid-column: 2;
+        grid-row: 1 / 3;
+        gap: 6px;
+    }
+
+    .key {
+        height: clamp(36px, calc((100dvh - 64px) / 5), 56px);
+        border-radius: 12px;
+    }
+
+    .result-value {
+        font-size: 40px;
+    }
 }
 
-button.operator {
-    background: var(--operator);
-    color: var(--operator-text);
+/* Very narrow phones */
+@media (max-width: 340px) {
+    .calculator {
+        padding: 14px;
+        border-radius: 22px;
+    }
+
+    .keys {
+        gap: 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .key,
+    .theme-toggle {
+        transition: none;
+    }
+
+    .key:hover {
+        transform: none;
+    }
 }

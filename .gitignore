@@ -10,5 +10,20 @@ obj/
 # Local Claude Code settings
 .claude/settings.local.json
 
+# Secrets and keys
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+*.ppk
+id_rsa*
+id_ed25519*
+id_ecdsa*
+
+# Design preview screenshots
+design-preview/
+
 # OS-generated files
 .DS_Store
