@@ -24,6 +24,10 @@
     --equals: #15803D;
     --equals-hover: #166534;
     --equals-text: #ffffff;
+    --clear: #DC2626;
+    --clear-hover: #B91C1C;
+    --clear-pressed: #991B1B;
+    --clear-text: #ffffff;
 
     --focus: #15803D;
 }
@@ -54,6 +58,10 @@
         --equals: #22c55e;
         --equals-hover: #4ade80;
         --equals-text: #052e16;
+        --clear: #EF4444;
+        --clear-hover: #DC2626;
+        --clear-pressed: #B91C1C;
+        --clear-text: #ffffff;
 
         --focus: #4ade80;
     }
@@ -84,6 +92,10 @@
     --equals: #22c55e;
     --equals-hover: #4ade80;
     --equals-text: #052e16;
+    --clear: #EF4444;
+    --clear-hover: #DC2626;
+    --clear-pressed: #B91C1C;
+    --clear-text: #ffffff;
 
     --focus: #4ade80;
 }
@@ -257,6 +269,21 @@ body {
 
 .key.function:hover {
     background: var(--function-hover);
+}
+
+/* C key only; comes after .function so it overrides the grey */
+.key.clear {
+    background: var(--clear);
+    color: var(--clear-text);
+}
+
+.key.clear:hover {
+    background: var(--clear-hover);
+}
+
+.key.clear:active,
+.key.clear.pressed {
+    background: var(--clear-pressed);
 }
 
 .key.operator {
