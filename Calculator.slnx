@@ -1,3 +1,5 @@
-<Solution>
-  <Project Path="Calculator.csproj" />
+﻿<Solution>
+  <Project Path="Calculator/Calculator.csproj" />
+  <Project Path="Calculator.Core/Calculator.Core.csproj" />
+  <Project Path="Calculator.Core.Tests/Calculator.Core.Tests.csproj" />
 </Solution>
