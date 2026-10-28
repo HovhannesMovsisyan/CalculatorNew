@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Overrides MAUI's main theme so the window is never white or default dark between the splash and the first frame -->
+    <style name="Maui.MainTheme" parent="Maui.MainTheme.Base">
+        <item name="android:windowBackground">@color/app_window_background</item>
+    </style>
+</resources>

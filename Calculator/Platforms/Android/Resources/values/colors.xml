@@ -3,4 +3,6 @@
     <color name="colorPrimary">#15803D</color>
     <color name="colorPrimaryDark">#15803D</color>
     <color name="colorAccent">#15803D</color>
+    <!-- Same as the page background in MainPage.xaml -->
+    <color name="app_window_background">#F0FDF4</color>
 </resources>
