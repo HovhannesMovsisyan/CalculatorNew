@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:core="clr-namespace:Calculator.Core;assembly=Calculator.Core"
-             xmlns:converters="clr-namespace:Calculator.Converters"
              xmlns:vm="clr-namespace:Calculator.ViewModels"
              x:Class="Calculator.MainPage"
              x:DataType="vm:MainViewModel"
@@ -13,8 +12,6 @@
 
     <!-- Colors follow web/style.css; dark is the default, light when the system asks for it -->
     <ContentPage.Resources>
-        <converters:FitFontSizeConverter x:Key="FitFontSize" MinFontSize="20" />
-
         <Style x:Key="Key" TargetType="Button">
             <Setter Property="FontSize" Value="22" />
             <Setter Property="FontFamily" Value="OpenSansSemibold" />
@@ -134,21 +131,17 @@
                                LineBreakMode="HeadTruncation"
                                MaxLines="1"
                                TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8, Default=#94A3B8}" />
+                        <!-- Text and FontSize are set by MainPage.FitResult, which measures the real width.
+                             FontAutoScalingEnabled is off so the phone's font size setting can't push digits off screen. -->
                         <Label x:Name="Result"
-                               Text="{Binding Display}"
+                               FontSize="56"
                                FontFamily="OpenSansSemibold"
+                               FontAutoScalingEnabled="False"
                                HorizontalTextAlignment="End"
-                               LineBreakMode="HeadTruncation"
+                               LineBreakMode="NoWrap"
                                MaxLines="1"
                                TextColor="{AppThemeBinding Light=#0F172A, Dark=#F1F5F9, Default=#F1F5F9}"
-                               SemanticProperties.Description="Result">
-                            <Label.FontSize>
-                                <MultiBinding Converter="{StaticResource FitFontSize}" ConverterParameter="56">
-                                    <Binding Path="Display" />
-                                    <Binding Path="Width" Source="{x:Reference DisplayContent}" x:DataType="VerticalStackLayout" />
-                                </MultiBinding>
-                            </Label.FontSize>
-                        </Label>
+                               SemanticProperties.Description="Result" />
                     </VerticalStackLayout>
                 </Border>
 

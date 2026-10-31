@@ -18,11 +18,14 @@ namespace Calculator.ViewModels
             Refresh();
         }
 
-        /// <summary>The main number on screen, or "Error".</summary>
+        /// <summary>
+        /// The main number as plain engine text, or "Error". The page formats it (separators or
+        /// scientific notation), because the choice depends on how much width the screen has.
+        /// </summary>
         [ObservableProperty]
         public partial string Display { get; private set; }
 
-        /// <summary>The smaller line above the result, e.g. "12 ×".</summary>
+        /// <summary>The smaller line above the result with thousands separators, e.g. "1,200 ×".</summary>
         [ObservableProperty]
         public partial string Expression { get; private set; }
 
@@ -86,7 +89,7 @@ namespace Calculator.ViewModels
         void Refresh()
         {
             Display = engine.Display;
-            Expression = engine.Expression;
+            Expression = DisplayFormatter.AddGroupSeparatorsToExpression(engine.Expression);
         }
     }
 }

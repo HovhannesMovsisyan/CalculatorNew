@@ -21,6 +21,8 @@ obj/
 id_rsa*
 id_ed25519*
 id_ecdsa*
+*.keystore
+*.jks
 
 # Design preview screenshots
 design-preview/
